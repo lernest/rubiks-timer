@@ -1,37 +1,26 @@
 <template>
   <div id="app">
-    <Timer/>
+    <div id="nav">
+      <router-link to="/">Full Cube</router-link> |
+      <router-link to="/trainer">Trainer</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
-
-<script>
-import Timer from './components/Timer.vue'
-
-export default {
-  name: 'App',
-  components: {
-    Timer
-  }
-}
-</script>
 
 <style>
 html{
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
 }
 
 ul{
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
-li{
-  padding: 0;
-  margin: 0;
-}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -39,12 +28,18 @@ li{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
-button{
-  padding: 9px;
-  margin: 0px 2px;
-  border-radius: 5px;
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
