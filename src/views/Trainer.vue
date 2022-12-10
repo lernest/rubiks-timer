@@ -1,5 +1,8 @@
 <template>
-  <h1>Trainer</h1>
+    <div>
+        <h1>Trainer</h1>
+        
+    </div>
 </template>
 
 <script>
