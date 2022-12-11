@@ -5,6 +5,7 @@
         <button class="start" v-if="!isTimerRunning" @click="startTimer">Start</button>
         <button class="stop" v-else @click="stopTimer">Stop</button>
         <button @click="resetTimer">Clear</button>
+        <button @click="saveTime">Save</button>
         <div class="history">
             <h2>History</h2>
             <ul>
@@ -15,6 +16,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
     data(){
@@ -77,6 +79,24 @@ export default {
         },
         saveTime(){
             this.savedTimes.push(this.formattedTime)
+
+            let record = {
+                phase:'whole cube',
+                time: new Date(this.startTime),
+                duration:this.formattedTime,
+                notes:'note'
+            }
+
+            console.log("Posting record:")
+            console.log(record)
+
+            // save to database
+            axios.post('http://localhost:3000/add',record).then(res => {
+                console.log("Posted")
+                console.log(res)
+            }).catch(e => {
+                console.log(e)
+            })
         }
     }
 }
