@@ -1,9 +1,9 @@
 <template>
     <div>
         <h1>Full Cube</h1>
-        <p>Press <span>SPACE</span> to start and stop the timer.
-            Press <span>BACKSPACE</span> to clear the timer. 
-            Press <span>ENTER</span> to save the time to your history.
+        <p>Press <span>S</span> to start and stop the timer.
+            Press <span>D</span> to clear the timer. 
+            Press <span>SHIFT + S</span> to save the time to your history.
         </p>
         <Timer />
     </div>
