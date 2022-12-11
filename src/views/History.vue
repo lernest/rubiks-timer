@@ -1,0 +1,238 @@
+<template>
+    <div>
+        <!-- Display historical times fetched from database -->
+        <div class="history">
+            <div class="history-header">
+                <h1>History</h1>
+                <div>
+                    <!-- Filter -->
+                    <div class="select">
+                        <label for="history-filter-select">Filter:</label>
+                        <select v-model="filterBy" id="history-filter-select">
+                            <option value="all">All</option>
+                            <option value="favorites">Favorites</option>
+                            <option value="whole cube">Whole Cube</option>
+                            <option value="cross">Cross</option>
+                            <option value="F2L">F2L</option>
+                        </select>
+                    </div>
+                    <!-- Sort -->
+                    <div class="select">
+                        <label for="history-sort-select">Sort:</label>
+                        <select v-model="sortBy" id="history-sort-select">
+                            <option value="most recent">Most recent</option>
+                            <option value="least recent">Least recent</option>
+                            <option value="fastest">Fastest</option>
+                            <option value="slowest">Slowest</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Display sorted and filtered history  -->
+            <ul class="records">
+                <li v-for="record in recordPage">
+                    <Record :record=record @removeRecord="removeRecord" @toggleFavorite="toggleFavorite" @updateNote="updateNote"/>
+                </li>
+            </ul>
+
+            <!-- Pagination -->
+            <ul class="pages">
+                <li v-if="currPage > 2"><button @click="setPage(1)"> << </button></li>
+                <li v-if="currPage > 1"><button @click="setPage(currPage-1)"> < </button></li>
+                <li v-for="page in pages"><button :class="page == currPage ? 'currentPage' : ''" @click="setPage(page)">{{page}}</button></li>
+                <li v-if="currPage < pages.length"><button @click="setPage(currPage+1)"> > </button></li>
+                <li v-if="currPage < pages.length-1"><button @click="setPage(pages.length)"> >> </button></li>
+            </ul>
+            <div class="pageSizeSelect">
+                <label for="select-num-per-page">Number per page</label>
+                <select v-model="numPerPage" id="select-num-per-page">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<script>
+import axios from 'axios'
+import Record from '../components/Record.vue'
+export default {
+    components:{
+        Record
+    },
+    data(){
+        return{
+            records: [],
+            filterBy: 'all',
+            sortBy: 'most recent',
+            numPerPage: 5,
+            currPage: 1
+        }
+    },
+    mounted(){
+        this.getTimes()
+    },
+    computed:{
+        recordPage(){
+            let startIndex = (this.currPage-1) * this.numPerPage
+            console.log(`currpage: ${this.currPage} start index: ${startIndex} . endIndex ${startIndex + 2}`)
+            return this.sortedHistory.slice(startIndex,startIndex + this.numPerPage )
+        },
+        sortedHistory(){
+            return this.filteredHistory.sort(this.compareRecords)
+        },
+        filteredHistory(){
+            if(this.filterBy == 'all'){
+                return this.records
+            }if(this.filterBy == 'favorites'){
+                return this.records.filter(x => x.isfavorite)
+            }
+
+            return this.records.filter(x => x.phase == this.filterBy)
+        },
+        pages(){
+            console.log('Num per page '+this.numPerPage)
+            console.log('Num records '+this.records.length)
+            
+            let numPages = Math.ceil(this.records.length / this.numPerPage)
+
+            console.log('num pages: '+numPages)
+
+            // The pages array should have i+1 in each cell
+            // ex. [1,2,3,4,5]
+            let pagesArr = []
+            for(let i=0; i<numPages; i++){
+                pagesArr.push(i+1)
+            }
+
+            console.log('PagesArr:')
+            console.log(pagesArr)
+
+            return pagesArr
+        },
+    },
+    methods:{
+        setPage(page){
+            this.currPage = page
+        },
+        compareRecords(a, b){
+            // Helper for sortedHistory()
+            if(this.sortBy == 'most recent'){
+                return Date.parse(b.time)-Date.parse(a.time)
+            }
+            else if(this.sortBy == 'least recent'){
+                return Date.parse(a.time)-Date.parse(b.time)
+            }
+            else if(this.sortBy == 'fastest'){
+                return (a.duration.seconds+(a.duration.milliseconds / 1000)) - (b.duration.seconds+(b.duration.milliseconds / 1000))
+            }
+            else if(this.sortBy == 'slowest'){
+                return (b.duration.seconds+(b.duration.milliseconds / 1000)) - (a.duration.seconds+(a.duration.milliseconds / 1000))
+            }
+            else{
+                return 
+            }
+
+        },
+        getTimes(){
+            axios.get('http://localhost:3000/rubiks').then(res => {
+                console.log("Getting times...")
+                console.log(res.data)
+                this.records = res.data
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        removeRecord(record_id){
+            axios.post('http://localhost:3000/remove',{record_id}).then(res => {
+                console.log("removed")
+                console.log(res)
+
+                this.getTimes()
+
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        toggleFavorite(record_id){
+            axios.post('http://localhost:3000/favorite',{record_id}).then(res => {
+                console.log("Favorited")
+                console.log(res)
+
+                this.getTimes()
+
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        updateNote(request){
+            console.log(`Timer.vue updateNote()`)
+            console.log(request)
+            axios.post('http://localhost:3000/note',request).then(res => {
+                console.log("updating note")
+                console.log(res)
+
+                this.getTimes()
+
+            }).catch(e => {
+                console.log(e)
+            })
+        }
+    }
+}
+</script>
+
+<style>
+    .history{
+        border: 1px solid black;
+        width: 50%;
+        margin: auto;
+        margin-top: 40px;
+    }
+/* 
+    .records{
+        max-height: 300px;
+        overflow: scroll;
+    } */
+    .history-header{
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+    }
+    .select{
+        margin: 0 10px;
+        display: inline;
+    }
+    .pages{
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 10px 15px;
+    }
+
+    .pageSizeSelect{
+        display: flex;
+        justify-content: flex-end;
+        font-size: 13px
+    }
+    .pageSizeSelect select{
+        padding: 0px;
+        font-size: 13px;
+    }
+
+    .pages button{
+        padding: 2px;
+        margin: 3px;
+        border: none;
+    }
+
+    .currentPage{
+        border: 1px solid black;
+        background-color: rgba(0, 0, 0, 0.44);
+    }
+
+</style>

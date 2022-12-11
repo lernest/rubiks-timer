@@ -17,11 +17,11 @@
                     </div>              
                 </li>
                 <li>
-                    <button v-if="record.isfavorite" @click="toggleFavorite">UnFav</button>
-                    <button v-else @click="toggleFavorite">Fav</button>
+                    <button v-if="record.isfavorite" @click="toggleFavorite"><span class="icon">&#127775</span></button>
+                    <button v-else @click="toggleFavorite"><span class="icon">&#11088</span></button>
                 </li>
                 <li>
-                    <button @click="removeRecord">X</button>
+                    <button @click="removeRecord"><span class="icon">&#128465</span></button>
                 </li>
             </ul>
         </div>
@@ -127,7 +127,7 @@ export default {
 
 <style>
     button{
-        padding: 10px 10px;
+        padding: 5px 5px;
     }
 
     .inner-list{
@@ -137,13 +137,6 @@ export default {
         border-bottom: 1px solid gray;
         align-items: center;
     }
-
-    /* .history-list-item{
-        display: grid;
-        grid-template-columns: 64% 12% 12% 12%;
-        border-bottom: 1px solid gray;
-        align-items: center;
-    } */
     .favorite{
         background-color: rgb(255, 255, 221);
     }
@@ -152,5 +145,8 @@ export default {
     }
     .note-input{
         width: 100%;
+    }
+    .icon{
+        font-size: 20px;
     }
 </style>

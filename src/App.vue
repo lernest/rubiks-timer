@@ -2,11 +2,28 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Timer</router-link> |
+      <router-link to="/history">History</router-link> |
       <router-link to="/trainer">Trainer</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default{
+  methods:{
+    getTimes(){
+      axios.get('http://localhost:3000/rubiks').then(res => {
+        console.log("Getting times...")
+        console.log(res.data)
+        this.savedTimes = res.data
+      }).catch(e => {
+        console.log(e)
+      })
+    }
+  }
+}
+</script>
 
 <style>
 html{
