@@ -36,22 +36,23 @@
                     <Record :record=record @removeRecord="removeRecord" @toggleFavorite="toggleFavorite" @updateNote="updateNote"/>
                 </li>
             </ul>
+            <div class="empty-message" v-if="sortedHistory.length==0">No records to display</div>
 
             <!-- Pagination -->
-            <ul class="pages">
-                <li v-if="currPage > 2"><button @click="setPage(1)"> << </button></li>
-                <li v-if="currPage > 1"><button @click="setPage(currPage-1)"> < </button></li>
+            <ul v-if="pages.length>1" class="pages">
+                <li v-if="currPage > 2"><button @click="setPage(1)"> {{'<<'}} </button></li>
+                <li v-if="currPage > 1"><button @click="setPage(currPage-1)"> {{'<'}} </button></li>
                 <li v-for="page in pages"><button :class="page == currPage ? 'currentPage' : ''" @click="setPage(page)">{{page}}</button></li>
-                <li v-if="currPage < pages.length"><button @click="setPage(currPage+1)"> > </button></li>
-                <li v-if="currPage < pages.length-1"><button @click="setPage(pages.length)"> >> </button></li>
+                <li v-if="currPage < pages.length"><button @click="setPage(currPage+1)"> {{'>'}} </button></li>
+                <li v-if="currPage < pages.length-1"><button @click="setPage(pages.length)"> {{'>>'}} </button></li>
             </ul>
             <div class="pageSizeSelect">
                 <label for="select-num-per-page">Number per page</label>
                 <select v-model="numPerPage" id="select-num-per-page">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
+                    <option value=5>5</option>
+                    <option value=10>10</option>
+                    <option value=15>15</option>
+                    <option value=20>20</option>
                 </select>
             </div>
 
@@ -80,9 +81,8 @@ export default {
     },
     computed:{
         recordPage(){
-            let startIndex = (this.currPage-1) * this.numPerPage
-            console.log(`currpage: ${this.currPage} start index: ${startIndex} . endIndex ${startIndex + 2}`)
-            return this.sortedHistory.slice(startIndex,startIndex + this.numPerPage )
+            let startIndex = (this.currPage-1) * parseInt(this.numPerPage)
+            return this.sortedHistory.slice(startIndex,startIndex + parseInt(this.numPerPage) )
         },
         sortedHistory(){
             return this.filteredHistory.sort(this.compareRecords)
@@ -97,12 +97,10 @@ export default {
             return this.records.filter(x => x.phase == this.filterBy)
         },
         pages(){
-            console.log('Num per page '+this.numPerPage)
-            console.log('Num records '+this.records.length)
-            
-            let numPages = Math.ceil(this.records.length / this.numPerPage)
-
-            console.log('num pages: '+numPages)
+            if((this.currPage-1) * this.numPerPage > this.sortedHistory.length){
+                this.currPage = 1
+            }
+            let numPages = Math.ceil(this.sortedHistory.length / this.numPerPage)
 
             // The pages array should have i+1 in each cell
             // ex. [1,2,3,4,5]
@@ -110,9 +108,6 @@ export default {
             for(let i=0; i<numPages; i++){
                 pagesArr.push(i+1)
             }
-
-            console.log('PagesArr:')
-            console.log(pagesArr)
 
             return pagesArr
         },
@@ -142,8 +137,6 @@ export default {
         },
         getTimes(){
             axios.get('http://localhost:3000/rubiks').then(res => {
-                console.log("Getting times...")
-                console.log(res.data)
                 this.records = res.data
             }).catch(e => {
                 console.log(e)
@@ -195,11 +188,6 @@ export default {
         margin: auto;
         margin-top: 40px;
     }
-/* 
-    .records{
-        max-height: 300px;
-        overflow: scroll;
-    } */
     .history-header{
         border-bottom: 1px solid black;
         padding-bottom: 10px;
@@ -235,4 +223,7 @@ export default {
         background-color: rgba(0, 0, 0, 0.44);
     }
 
+    .empty-message{
+        margin-top: 20px;
+    }
 </style>

@@ -123,7 +123,9 @@ export default {
         margin: 10px;
     }
     .timer-buttons button{
-        width: 100px;
+        width: 170px;
+        height: 50px;
         border-radius: 10px;
+        font-size: 20px;
     }
 </style>

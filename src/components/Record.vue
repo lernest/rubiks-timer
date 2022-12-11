@@ -46,7 +46,7 @@ export default {
         },
         formattedTime(){
             let date = this.recordDate
-            return `${date.getHours()>12 ? date.getHours()-12 : date.getHours()}:${date.getMinutes()}${date.getHours>12?"PM":"AM"}`
+            return `${date.getHours()>12 ? date.getHours()-12 : date.getHours()}:${date.getMinutes()}${date.getHours>12?"AM":"PM"}`
         }
     },
     methods:{
@@ -54,7 +54,6 @@ export default {
             this.isEditing = true
         },
         updateNote(){
-            console.log(`Record.vue: updateNote():  ${this.note}`)
             let updatedNote = {
                 record_id: this.record.id,
                 note: this.noteInput,
