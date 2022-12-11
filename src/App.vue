@@ -23,6 +23,10 @@ ul{
   margin: 0;
 }
 
+select{
+  font-size: 15px;
+  padding: 5px;
+}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

@@ -1,33 +1,29 @@
 <template>
     <div class="history-list-item" :class="record.isfavorite ? 'favorite' : 'not-favorite'">
-
         <div>
             <ul class="inner-list">
-                <!-- <li> id: {{record.id}} </li> -->
                 <li> {{record.phase}} </li>
-                <!-- <li> {{record.time}} </li> -->
                 <li> {{recordDate.toDateString()+" "+formattedTime}}</li>
                 <li> {{formatDuration(record.duration)}} </li>
                 <li> {{record.notes}} </li>
-                <!-- <li> is favorite: {{record.isfavorite}} </li> -->
+                <li>
+                    <button v-if="!isEditing" @click="editNote">Note</button>
+                    <div v-if="isEditing">
+                        <input v-model="noteInput" class="note-input" label="note-input" type="text">
+                    </div>
+                    <div v-if="isEditing">
+                        <button @click="updateNote">Submit</button>
+                        <button @click="cancelUpdate">Cancel</button>
+                    </div>              
+                </li>
+                <li>
+                    <button v-if="record.isfavorite" @click="toggleFavorite">UnFav</button>
+                    <button v-else @click="toggleFavorite">Fav</button>
+                </li>
+                <li>
+                    <button @click="removeRecord">X</button>
+                </li>
             </ul>
-        </div>
-        <div>
-            <button v-if="!isEditing" @click="editNote">Edit Note</button>
-            <div v-if="isEditing">
-                <input v-model="noteInput" class="note-input" label="note-input" type="text">
-            </div>
-            <div v-if="isEditing">
-                <button @click="updateNote">Submit</button>
-                <button @click="cancelUpdate">Cancel</button>
-            </div>
-        </div>
-        <div>
-            <button v-if="record.isfavorite" @click="toggleFavorite">Unfavorite</button>
-            <button v-else @click="toggleFavorite">Favorite</button>
-        </div>
-        <div>
-            <button @click="removeRecord">Remove</button>
         </div>
     </div>
 </template>
@@ -133,16 +129,21 @@ export default {
     button{
         padding: 10px 10px;
     }
+
     .inner-list{
         padding: 5px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 0.3fr 0.3fr 0.3fr;
+        border-bottom: 1px solid gray;
+        align-items: center;
     }
 
-    .history-list-item{
+    /* .history-list-item{
         display: grid;
         grid-template-columns: 64% 12% 12% 12%;
         border-bottom: 1px solid gray;
         align-items: center;
-    }
+    } */
     .favorite{
         background-color: rgb(255, 255, 221);
     }
