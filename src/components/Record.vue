@@ -3,20 +3,24 @@
 
         <div>
             <ul class="inner-list">
-                <li> id: {{record.id}} </li>
-                <li> phase: {{record.phase}} </li>
-                <li> time: {{record.time}} </li>
-                <li> duration: {{formatDuration(record.duration)}} </li>
-                <li> notes: {{record.notes}} </li>
-                <li> is favorite: {{record.isfavorite}} </li>
+                <!-- <li> id: {{record.id}} </li> -->
+                <li> {{record.phase}} </li>
+                <!-- <li> {{record.time}} </li> -->
+                <li> {{recordDate.toDateString()+" "+formattedTime}}</li>
+                <li> {{formatDuration(record.duration)}} </li>
+                <li> {{record.notes}} </li>
+                <!-- <li> is favorite: {{record.isfavorite}} </li> -->
             </ul>
         </div>
         <div>
             <button v-if="!isEditing" @click="editNote">Edit Note</button>
             <div v-if="isEditing">
-                <input v-model="noteInput" label="note-input" type="text">
+                <input v-model="noteInput" class="note-input" label="note-input" type="text">
             </div>
-            <button v-if="isEditing" @click="updateNote">Submit Note</button>
+            <div v-if="isEditing">
+                <button @click="updateNote">Submit</button>
+                <button @click="cancelUpdate">Cancel</button>
+            </div>
         </div>
         <div>
             <button v-if="record.isfavorite" @click="toggleFavorite">Unfavorite</button>
@@ -37,6 +41,16 @@ export default {
         return{
             isEditing: false,
             noteInput: ''
+        }
+    },
+    computed:{
+        recordDate(){
+            console.log(new Date(Date.parse(this.record.time)))
+            return new Date(Date.parse(this.record.time))
+        },
+        formattedTime(){
+            let date = this.recordDate
+            return `${date.getHours()>12 ? date.getHours()-12 : date.getHours()}:${date.getMinutes()}${date.getHours>12?"PM":"AM"}`
         }
     },
     methods:{
@@ -107,6 +121,10 @@ export default {
 
             return formatted
         },
+        cancelUpdate(){
+            this.noteInput = ''
+            this.isEditing = false
+        }
     }
 }
 </script>
@@ -121,8 +139,8 @@ export default {
 
     .history-list-item{
         display: grid;
-        grid-template-columns: 70% 10% 10% 10%;
-        border-top: 1px solid gray;
+        grid-template-columns: 64% 12% 12% 12%;
+        border-bottom: 1px solid gray;
         align-items: center;
     }
     .favorite{
@@ -130,5 +148,8 @@ export default {
     }
     .not-favorite{
         color: black;
+    }
+    .note-input{
+        width: 100%;
     }
 </style>

@@ -2,19 +2,19 @@
     <div>
         <h1>Timer</h1>
         <div class="timer">{{formattedTime}}</div>
-        <div>
-            <button class="start" v-if="!isTimerRunning" @click="startTimer">Start</button>
-            <button class="stop" v-else @click="stopTimer">Stop</button>
-        </div>
-        <div v-if="!isTimerRunning && elapsedTime!=0">
-            <label for="note-input">Note:</label>
-            <input v-model="note" id="note-input" type="text">
-        </div>
-        <div>
-            <button v-if="!isTimerRunning && elapsedTime!=0" @click="saveTime">Save</button>
-            <button v-if="!isTimerRunning && elapsedTime!=0" @click="resetTimer">Reset</button>
-        </div>
 
+
+        <div class="timer-buttons">
+            <div v-if="showStartButton">
+                <button class="start" v-if="!isTimerRunning" @click="startTimer">Start</button>
+                <button class="stop" v-else @click="stopTimer">Stop</button>
+            </div>
+            <div v-if="!showStartButton">
+                <button @click="saveTime">Save</button>
+                <button @click="resetTimer">Reset</button>
+            </div>
+        </div>
+            
         
         <!-- Select phase to record -->
         <label for="record-phase-select">Phase:</label>
@@ -27,31 +27,35 @@
 
         <!-- Display historical times fetched from database -->
         <div class="history">
-            <h2>History</h2>
-            <div>
-                
-                <!-- Filter -->
-                <label for="history-filter-select">Filter:</label>
-                <select v-model="filterBy" id="history-filter-select">
-                    <option value="all">All</option>
-                    <option value="favorites">Favorites</option>
-                    <option value="whole cube">Whole Cube</option>
-                    <option value="cross">Cross</option>
-                    <option value="F2L">F2L</option>
-                </select>
-                
-                <!-- Sort -->
-                <label for="history-sort-select">Sort:</label>
-                <select v-model="sortBy" id="history-sort-select">
-                    <option value="most recent">Most recent</option>
-                    <option value="least recent">Least recent</option>
-                    <option value="fastest">Fastest</option>
-                    <option value="slowest">Slowest</option>
-                </select>
+            <div class="history-header">
+                <h2>History</h2>
+                <div>
+                    <!-- Filter -->
+                    <div class="select">
+                        <label for="history-filter-select">Filter:</label>
+                        <select v-model="filterBy" id="history-filter-select">
+                            <option value="all">All</option>
+                            <option value="favorites">Favorites</option>
+                            <option value="whole cube">Whole Cube</option>
+                            <option value="cross">Cross</option>
+                            <option value="F2L">F2L</option>
+                        </select>
+                    </div>
+                    <!-- Sort -->
+                    <div class="select">
+                        <label for="history-sort-select">Sort:</label>
+                        <select v-model="sortBy" id="history-sort-select">
+                            <option value="most recent">Most recent</option>
+                            <option value="least recent">Least recent</option>
+                            <option value="fastest">Fastest</option>
+                            <option value="slowest">Slowest</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             
             <!-- Display sorted and filtered history  -->
-            <ul class="outer-list">
+            <ul class="records">
                 <li v-for="record in sortedHistory">
                     <Record :record=record @removeRecord="removeRecord" @toggleFavorite="toggleFavorite" @updateNote="updateNote"/>
                 </li>
@@ -79,7 +83,7 @@ export default {
             filterBy: 'whole cube',
             sortBy: 'most recent',
             keyBlocked: false,
-            note: ''
+            showStartButton: true,
         }
     },
     computed:{
@@ -160,14 +164,16 @@ export default {
         },  
         stopTimer(){
             clearInterval(this.timer)
-            this.isTimerRunning = false;
+            this.isTimerRunning = false
             this.stopTime = Date.now()
+            this.showStartButton = false
         },
         resetTimer(){
             this.elapsedTime = 0
             this.note = ''
             this.startTime = null
             this.endTime = null
+            this.showStartButton = true
         },
         removeRecord(record_id){
             axios.post('http://localhost:3000/remove',{record_id}).then(res => {
@@ -209,7 +215,7 @@ export default {
                 phase: this.recordingPhase,
                 time: new Date(this.startTime),
                 duration:this.formattedTime,
-                notes:this.note
+                notes:''
             }
 
             console.log("Posting record:")
@@ -254,10 +260,10 @@ export default {
         text-align: center;
     }
     .start{
-        background-color: green;
+        background-color: rgb(78, 225, 78);
     }
     .stop{
-        background-color: red;
+        background-color: rgb(205, 129, 129);
     }
     .history{
         border: 1px solid black;
@@ -266,6 +272,26 @@ export default {
         margin-top: 40px;
     }
 
-
-
+    .records{
+        max-height: 300px;
+        overflow: scroll;
+    }
+    .history-header{
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+    }
+    .select{
+        margin: 0 10px;
+        display: inline;
+    }
+    select{
+        margin-left: 5px;
+    }
+    .timer-buttons{
+        margin: 10px;
+    }
+    .timer-buttons button{
+        width: 100px;
+        border-radius: 10px;
+    }
 </style>

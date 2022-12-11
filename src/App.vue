@@ -14,11 +14,13 @@ html{
   margin: 0px;
   padding: 0px;
   text-align: center;
+  font-size: 1.2em;
 }
 
 ul{
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 
