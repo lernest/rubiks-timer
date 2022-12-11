@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Full Cube</router-link> |
+      <router-link to="/">Timer</router-link> |
       <router-link to="/trainer">Trainer</router-link>
     </div>
     <router-view/>

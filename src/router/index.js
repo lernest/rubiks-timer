@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import FullCube from '../views/FullCube.vue'
+import Timer from '../views/Timer.vue'
 import Trainer from '../views/Trainer.vue'
 
 Vue.use(VueRouter)
@@ -8,8 +8,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'FullCube',
-    component: FullCube
+    name: 'Timer',
+    component: Timer
   },
   {
     path: '/trainer',
