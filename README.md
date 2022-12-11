@@ -6,12 +6,7 @@ npm install
 ```
 # Rubiks Cube Timer
 
-### Flashcards mode
-
-Cycle through selected cases.
-- Start whole thing on 'space'
-- Record time and move to next case on next 'space'
-- No time between spaces or time between spaces (toggle setting)
+A timer for practicing rubiks cubes. Times are written to postgres database.
 
 -------
 
