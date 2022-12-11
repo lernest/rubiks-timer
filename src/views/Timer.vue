@@ -52,24 +52,8 @@
             
             <!-- Display sorted and filtered history  -->
             <ul class="outer-list">
-                <li class="history-list-item" :class="record.isfavorite ? 'favorite' : 'not-favorite'" v-for="record in sortedHistory">
-                    <div>
-                        <ul class="inner-list">
-                            <li> id: {{record.id}} </li>
-                            <li> phase: {{record.phase}} </li>
-                            <li> time: {{record.time}} </li>
-                            <li> duration: {{formatDuration(record.duration)}} </li>
-                            <li> notes: {{record.notes}} </li>
-                            <li> is favorite: {{record.isfavorite}} </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <button v-if="record.isfavorite" @click="toggleFavorite(record.id)">Unfavorite</button>
-                        <button v-else @click="toggleFavorite(record.id)">Favorite</button>
-                    </div>
-                    <div>
-                        <button @click="removeRecord(record.id)">Remove</button>
-                    </div>
+                <li v-for="record in sortedHistory">
+                    <Record :record=record @removeRecord="removeRecord" @toggleFavorite="toggleFavorite" @updateNote="updateNote"/>
                 </li>
             </ul>
         </div>
@@ -78,8 +62,12 @@
 
 <script>
 import axios from 'axios'
+import Record from '../components/Record.vue'
 
 export default {
+    components:{
+        Record
+    },
     data(){
         return{
             elapsedTime: 0,
@@ -143,52 +131,6 @@ export default {
         this.getTimes()
     },
     methods:{
-        formatDuration(duration){
-            let formatted = ""
-
-            // Minutes - Longer than one minute
-            if(!duration.minutes){
-                formatted += '00:'
-            }
-            else if(duration.minutes < 10){
-                formatted += '0'+duration.minutes+':'
-            }
-            else if(duration.minutes < 10){
-                formatted += duration.minutes + ':'
-            }
-
-            // Seconds - Less than one second
-            if(!duration.seconds){
-                formatted += '00.'
-            }
-            // Seconds - Less than ten seconds, pad with one zero
-            else if(duration.seconds < 10){
-                formatted += '0'+duration.seconds+'.'
-            }
-            // Seconds - At least ten seconds, no need to pad
-            else if(duration.seconds >= 10){
-                formatted += duration.seconds+'.'
-            }
-
-            // Milliseconds - Zero, pad with 3
-            if(!duration.milliseconds || duration.milliseconds == 0){
-                formatted += '000'
-            }
-            // Milliseconds - Less than 10, pad with two zeros
-            else if(duration.milliseconds < 10){
-                formatted += '00'+duration.milliseconds
-            }
-            // Milliseconds - Less than 100, pad with one zero
-            else if(duration.milliseconds < 100){
-                formatted += '0'+duration.milliseconds
-            }
-            // Milliseconds - In the hundreds, no need to pad
-            else if(duration.milliseconds >= 100){
-                formatted += duration.milliseconds
-            }
-
-            return formatted
-        },
         compareRecords(a, b){
             // Helper for sortedHistory()
             if(this.sortBy == 'most recent'){
@@ -223,7 +165,7 @@ export default {
         },
         resetTimer(){
             this.elapsedTime = 0
-            this.note = 0
+            this.note = ''
             this.startTime = null
             this.endTime = null
         },
@@ -241,6 +183,19 @@ export default {
         toggleFavorite(record_id){
             axios.post('http://localhost:3000/favorite',{record_id}).then(res => {
                 console.log("Favorited")
+                console.log(res)
+
+                this.getTimes()
+
+            }).catch(e => {
+                console.log(e)
+            })
+        },
+        updateNote(request){
+            console.log(`Timer.vue updateNote()`)
+            console.log(request)
+            axios.post('http://localhost:3000/note',request).then(res => {
+                console.log("updating note")
                 console.log(res)
 
                 this.getTimes()
@@ -289,15 +244,7 @@ export default {
     button:hover{
         cursor: pointer;
     }
-    .history-list-item{
-        display: grid;
-        grid-template-columns: 80% 10% 10%;
-        border-top: 1px solid gray;
-        align-items: center;
-    }
-    .history-list-item button{
-        padding: 10px 10px;
-    }
+
     .timer{
         padding: 20px;
         font-size: 30px;
@@ -318,15 +265,7 @@ export default {
         margin: auto;
         margin-top: 40px;
     }
-    .inner-list{
-        padding: 5px;
-    }
-    .favorite{
-        background-color: rgb(255, 255, 221);
-    }
-    .not-favorite{
-        color: black;
-    }
+
 
 
 </style>
