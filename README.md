@@ -10,6 +10,13 @@ A timer for practicing rubiks cubes. Times are written to postgres database.
 
 -------
 
+## Todo
+
+- Implement pagination when fetching data from server instead of loading it all and filtering in the frontend
+- Upgrade to Vue 3
+
+-------
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
