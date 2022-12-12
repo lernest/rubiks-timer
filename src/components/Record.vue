@@ -35,7 +35,6 @@
 
 <script>
 
-
 export default {
     props:{
         record: Object
@@ -52,8 +51,17 @@ export default {
             return new Date(Date.parse(this.record.time))
         },
         formattedTime(){
+
             let date = this.recordDate
-            return `${date.getHours()>12 ? date.getHours()-12 : date.getHours()}:${date.getMinutes()}${date.getHours>12?"AM":"PM"}`
+
+            // pad minutes with 0 if less than 10
+            let minutes = (date.getMinutes() < 10)?'0'+date.getMinutes():date.getMinutes()
+
+            // convert to 12 hour time
+            let hours = date.getHours()==0?'12':(date.getHours()>12 ? date.getHours()-12 : date.getHours())
+            let amOrPm = date.getHours()<12?"AM":"PM"
+            
+            return `${hours}:${minutes}${amOrPm}`
         }
     },
     methods:{

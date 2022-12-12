@@ -23,7 +23,7 @@
                 <option value="4x4">4x4</option>
                 <option value="5x5">5x5</option>
                 <option value="6x6">6x6</option>
-                <option value="Other">Other</option>
+                <option value="other">other</option>
                 <!-- <option value="cross">Cross</option>
                 <option value="F2L">F2L</option> -->
             </select>
