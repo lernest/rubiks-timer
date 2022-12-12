@@ -16,6 +16,7 @@
                             <option value="F2L">F2L</option>
                         </select>
                     </div>
+
                     <!-- Sort -->
                     <div class="select">
                         <label for="history-sort-select">Sort:</label>
@@ -46,8 +47,10 @@
                 <li v-if="currPage < pages.length"><button @click="setPage(currPage+1)"> {{'>'}} </button></li>
                 <li v-if="currPage < pages.length-1"><button @click="setPage(pages.length)"> {{'>>'}} </button></li>
             </ul>
+
+            <!-- Page size  -->
             <div class="pageSizeSelect">
-                <label for="select-num-per-page">Number per page</label>
+                <label for="select-num-per-page">Records per page</label>
                 <select v-model="numPerPage" id="select-num-per-page">
                     <option value=5>5</option>
                     <option value=10>10</option>
@@ -199,13 +202,14 @@ export default {
     .pages{
         display: flex;
         justify-content: flex-end;
-        margin-right: 10px 15px;
+        margin: 5px;
     }
 
     .pageSizeSelect{
         display: flex;
         justify-content: flex-end;
-        font-size: 13px
+        font-size: 13px;
+        margin: 5px
     }
     .pageSizeSelect select{
         padding: 0px;
@@ -214,6 +218,8 @@ export default {
 
     .pages button{
         padding: 2px;
+        width: 20px;
+        height: 30px;
         margin: 3px;
         border: none;
     }

@@ -14,6 +14,7 @@ A timer for practicing rubiks cubes. Times are written to postgres database.
 
 - Implement pagination when fetching data from server instead of loading it all and filtering in the frontend
 - Upgrade to Vue 3
+- fix layout to be mobile compatible
 
 -------
 
