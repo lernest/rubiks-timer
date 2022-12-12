@@ -2,8 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Timer</router-link> |
-      <router-link to="/history">History</router-link> |
-      <router-link to="/trainer">Trainer</router-link>
+      <router-link to="/history">History</router-link>
+      <!-- <router-link to="/trainer">Trainer</router-link> -->
     </div>
     <div class="container">
     </div>
@@ -19,7 +19,7 @@ html{
   text-align: center;
   font-size: 1.2em;
   background-image: url("./assets/lego.jpg");
-  background-size: cover; 
+  background-size: 60%; 
 }
 
 ul{
@@ -44,12 +44,13 @@ select{
 #nav {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 5px;
 }
 
 @media(max-width: 1000px){
   #nav {
-  justify-content: center;
-}
+    justify-content: center;
+  }
 }
 
 #nav a {
@@ -61,6 +62,8 @@ select{
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  /* color: #42b983; */
+  color: #eee;
+  background-color: rgba(0, 0, 0, 0.519)
 }
 </style>
