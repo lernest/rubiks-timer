@@ -11,17 +11,21 @@
             </div>
             <div v-if="!showStartButton">
                 <button class="save" @click="saveTime">Save</button>
-                <button @click="resetTimer">Reset</button>
+                <button class="reset" @click="resetTimer">Reset</button>
             </div>
         </div>
             
         
         <!-- Select phase to record -->
-        <label for="record-phase-select">Phase:</label>
+        <label for="record-phase-select">Cube:</label>
             <select v-model="recordingPhase" id="record-phase-select">
-                <option value="whole cube">Whole Cube</option>
-                <option value="cross">Cross</option>
-                <option value="F2L">F2L</option>
+                <option value="3x3">3x3</option>
+                <option value="4x4">4x4</option>
+                <option value="5x5">5x5</option>
+                <option value="6x6">6x6</option>
+                <option value="Other">Other</option>
+                <!-- <option value="cross">Cross</option>
+                <option value="F2L">F2L</option> -->
             </select>
 
 
@@ -39,7 +43,7 @@ export default {
             stopTime: null,
             isTimerRunning: false,
             showStartButton: true,
-            recordingPhase: 'whole cube'
+            recordingPhase: '3x3'
         }
     },
     computed:{
@@ -106,27 +110,33 @@ export default {
         padding: 20px;
         max-width: 500px;
         margin: auto;
-        background-color: rgba(238, 238, 238, 0.929);
+        background-color: var(--primary-color);
         border-radius: 15px;
     }
 
     .timer{
         padding: 20px;
-        font-size: 50px;
+        font-family: var(--timer-font);
+        font-size: 70px;
         border: 1px solid black;
         width: 300px;
         margin: 10px auto;
         text-align: center;
-        background-color: rgba(0, 0, 0, 0.144)
+        background-color: var(--secondary-color);
     }
     .start{
-        background-color: rgb(78, 225, 78);
+        background-color: rgba(78, 225, 78, 0.615);
     }
     .stop{
-        background-color: rgb(205, 129, 129);
+        background-color: rgba(255, 70, 70, 0.677);
     }
     .save{
-        background-color: rgba(78, 225, 78, 0.466);
+        background-color: var(--secondary-color);
+        margin-right: 2px;
+    }
+    .reset{
+        background-color: var(--secondary-color);
+        margin-left: 2px;
     }
 
     select{
@@ -140,5 +150,6 @@ export default {
         height: 50px;
         border-radius: 10px;
         font-size: 20px;
+        font-family: var(--button-font)
     }
 </style>

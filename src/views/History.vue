@@ -11,9 +11,10 @@
                         <select v-model="filterBy" id="history-filter-select">
                             <option value="all">All</option>
                             <option value="favorites">Favorites</option>
-                            <option value="whole cube">Whole Cube</option>
-                            <option value="cross">Cross</option>
-                            <option value="F2L">F2L</option>
+                            <option value="3x3">3x3</option>
+                            <option value="4x4">4x4</option>
+                            <option value="5x5">5x5</option>
+                            <option value="6x6">6x6</option>
                         </select>
                     </div>
 
@@ -204,15 +205,15 @@ export default {
         max-width: 800px;
         min-width: 300px;
         margin: auto;
-        margin-top: 40px;
-        background-color: rgba(238, 238, 238, 0.929);
+        /* margin-top: 40px; */
+        background-color: var(--primary-color);
         border-radius: 15px;
         padding: 0px 10px 5px 5px;
     }
 
     .history h1{
-        margin-top: -30px;
-        padding-top: 20px;
+        margin: 20px;
+        padding-top: 30px;
     }
 
     .history-header{
@@ -220,7 +221,7 @@ export default {
         padding-bottom: 10px;
     }
     .select{
-        margin: 0 10px;
+        margin: 2px 10px;
         display: inline;
     }
     .pages{

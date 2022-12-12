@@ -6,7 +6,13 @@
                 <li> {{record.phase}} </li>
                 <li> {{formatDuration(record.duration)}} </li>
                 <li v-if="!isEditing" class="notes"> {{record.notes}} </li>
-                <li v-else><input v-model="noteInput" class="note-input" label="note-input" type="text"/></li>
+                <li v-else>
+                    <input v-model="noteInput" class="note-input" label="note-input" type="text"/>
+                    <div class="note-edit-buttons" v-if="isEditing">
+                                <button class="check-button" @click="updateNote"><font-awesome-icon icon="fa-regular fa-check-circle" /></button>
+                                <button class="cancel-button" @click="cancelUpdate"><font-awesome-icon icon="fa-regular fa-circle-xmark" /></button>
+                    </div>   
+                </li>
                 <li> 
                     <ul>
                         <li>
@@ -15,10 +21,7 @@
                         </li>
                         <li>
                             <button v-if="!isEditing" @click="editNote"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button>
-                            <div class="note-edit-buttons" v-if="isEditing">
-                                <button class="check-button" @click="updateNote"><font-awesome-icon icon="fa-regular fa-check-circle" /></button>
-                                <button class="cancel-button" @click="cancelUpdate"><font-awesome-icon icon="fa-regular fa-circle-xmark" /></button>
-                            </div>              
+                            <button v-else @click="cancelUpdate"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>           
                         </li>
                         <li>
                             <button @click="removeRecord"><font-awesome-icon icon="fa-regular fa-trash-can" /></button>
@@ -148,6 +151,7 @@ export default {
     }
 
     .inner-list{
+        font-family: Avenir, Helvetica, Arial, sans-serif;
         padding: 10px;
         /* display: grid; */
         /* grid-template-columns: 1fr 1fr 1fr 1fr 0.3fr 0.3fr 0.3fr; */
@@ -177,19 +181,21 @@ export default {
     }
 
     .note-edit-buttons button{
-        font-size: 18px;
+        font-size: 24px;
         border: none;
         background-color: rgba(238, 238, 238, 0);
-        margin: -5px;
+        margin: -2px;
+        margin-top: 0px;
+        position: flex;
     }
 
-    /* .check-button{
+    .check-button{
         color: green;
     }
 
     .cancel-button{
         color: red;
-    } */
+    }
 
     .dates{
         font-size: 14px;

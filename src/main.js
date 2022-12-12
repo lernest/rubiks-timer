@@ -9,11 +9,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
+import { faStar as faStarSolid, faPenToSquare as faPenToSquareSolid } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan, faStar, faPenToSquare, faCheckCircle, faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 
 /* add icons to the library */
-library.add([faTrashCan, faStar, faCheckCircle, faCircleXmark, faPenToSquare, faStarSolid])
+library.add([faTrashCan, faStar, faCheckCircle, faCircleXmark, faPenToSquare, faStarSolid, faPenToSquareSolid])
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)
