@@ -4,7 +4,7 @@
         <div class="history">
             <div class="history-header">
                 <h1>History</h1>
-                <div>
+                <div class="filter-and-sort">
                     <!-- Filter -->
                     <div class="select">
                         <label for="history-filter-select">Filter:</label>
@@ -41,11 +41,11 @@
 
             <!-- Pagination -->
             <ul v-if="pages.length>1" class="pages">
-                <li v-if="currPage > 2"><button @click="setPage(1)"> {{'<<'}} </button></li>
-                <li v-if="currPage > 1"><button @click="setPage(currPage-1)"> {{'<'}} </button></li>
+                <!-- <li v-if="currPage > 2"><button @click="setPage(1)"> {{'<<'}} </button></li> -->
+                <!-- <li v-if="currPage > 1"><button @click="setPage(currPage-1)"> {{'<'}} </button></li> -->
                 <li v-for="page in pages"><button :class="page == currPage ? 'currentPage' : ''" @click="setPage(page)">{{page}}</button></li>
-                <li v-if="currPage < pages.length"><button @click="setPage(currPage+1)"> {{'>'}} </button></li>
-                <li v-if="currPage < pages.length-1"><button @click="setPage(pages.length)"> {{'>>'}} </button></li>
+                <!-- <li v-if="currPage < pages.length"><button @click="setPage(currPage+1)"> {{'>'}} </button></li> -->
+                <!-- <li v-if="currPage < pages.length-1"><button @click="setPage(pages.length)"> {{'>>'}} </button></li> -->
             </ul>
 
             <!-- Page size  -->
@@ -185,12 +185,36 @@ export default {
 </script>
 
 <style>
+    /* @media(min-width: 2000px){
+        .history{
+            max-width: 1000px;
+        }
+    } */
+
+    @media(max-width: 1000px){
+        .filter-and-sort{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
     .history{
-        border: 1px solid black;
+        /* border: 1px solid black; */
         width: 50%;
+        max-width: 800px;
+        min-width: 300px;
         margin: auto;
         margin-top: 40px;
+        background-color: rgba(238, 238, 238, 0.929);
+        border-radius: 15px;
+        padding: 0px 10px 5px 5px;
     }
+
+    .history h1{
+        margin-top: -30px;
+        padding-top: 20px;
+    }
+
     .history-header{
         border-bottom: 1px solid black;
         padding-bottom: 10px;
@@ -221,7 +245,8 @@ export default {
         width: 20px;
         height: 30px;
         margin: 3px;
-        border: none;
+        /* background-color: rgba(0, 0, 0, 0); */
+        border: 1px solid rgba(0, 0, 0, 0.452);
     }
 
     .currentPage{

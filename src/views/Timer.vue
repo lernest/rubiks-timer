@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="timer-container">
         <h1>Timer</h1>
         <div class="timer">{{formattedTime}}</div>
 
@@ -10,7 +10,7 @@
                 <button class="stop" v-else @click="stopTimer">Stop</button>
             </div>
             <div v-if="!showStartButton">
-                <button @click="saveTime">Save</button>
+                <button class="save" @click="saveTime">Save</button>
                 <button @click="resetTimer">Reset</button>
             </div>
         </div>
@@ -101,13 +101,23 @@ export default {
         cursor: pointer;
     }
 
+    .timer-container{
+        min-width: 300px;
+        padding: 20px;
+        max-width: 500px;
+        margin: auto;
+        background-color: rgba(238, 238, 238, 0.929);
+        border-radius: 15px;
+    }
+
     .timer{
         padding: 20px;
-        font-size: 30px;
+        font-size: 50px;
         border: 1px solid black;
-        width: 200px;
-        margin: 5px auto;
+        width: 300px;
+        margin: 10px auto;
         text-align: center;
+        background-color: rgba(0, 0, 0, 0.144)
     }
     .start{
         background-color: rgb(78, 225, 78);
@@ -115,12 +125,15 @@ export default {
     .stop{
         background-color: rgb(205, 129, 129);
     }
+    .save{
+        background-color: rgba(78, 225, 78, 0.466);
+    }
 
     select{
         margin-left: 5px;
     }
     .timer-buttons{
-        margin: 10px;
+        margin: 30px 15px;
     }
     .timer-buttons button{
         width: 170px;

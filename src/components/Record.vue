@@ -7,19 +7,23 @@
                 <li> {{formatDuration(record.duration)}} </li>
                 <li v-if="!isEditing" class="notes"> {{record.notes}} </li>
                 <li v-else><input v-model="noteInput" class="note-input" label="note-input" type="text"/></li>
-                <li>
-                    <button v-if="!isEditing" @click="editNote"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button>
-                    <div class="note-edit-buttons" v-if="isEditing">
-                        <button class="check-button" @click="updateNote"><font-awesome-icon icon="fa-regular fa-check-circle" /></button>
-                        <button class="cancel-button" @click="cancelUpdate"><font-awesome-icon icon="fa-regular fa-circle-xmark" /></button>
-                    </div>              
-                </li>
-                <li>
-                    <button v-if="record.isfavorite" @click="toggleFavorite"><font-awesome-icon icon="fa-solid fa-star" /></button>
-                    <button v-else @click="toggleFavorite"><font-awesome-icon icon="fa-regular fa-star" /></button>
-                </li>
-                <li>
-                    <button @click="removeRecord"><font-awesome-icon icon="fa-regular fa-trash-can" /></button>
+                <li> 
+                    <ul>
+                        <li>
+                            <button v-if="record.isfavorite" @click="toggleFavorite" class="solid-star"><font-awesome-icon icon="fa-solid fa-star" /></button>
+                            <button v-else @click="toggleFavorite"><font-awesome-icon icon="fa-regular fa-star" /></button>
+                        </li>
+                        <li>
+                            <button v-if="!isEditing" @click="editNote"><font-awesome-icon icon="fa-regular fa-pen-to-square" /></button>
+                            <div class="note-edit-buttons" v-if="isEditing">
+                                <button class="check-button" @click="updateNote"><font-awesome-icon icon="fa-regular fa-check-circle" /></button>
+                                <button class="cancel-button" @click="cancelUpdate"><font-awesome-icon icon="fa-regular fa-circle-xmark" /></button>
+                            </div>              
+                        </li>
+                        <li>
+                            <button @click="removeRecord"><font-awesome-icon icon="fa-regular fa-trash-can" /></button>
+                        </li>
+                    </ul> 
                 </li>
             </ul>
         </div>
@@ -125,6 +129,18 @@ export default {
 </script>
 
 <style scoped>
+
+    @media(max-width: 1400px){
+        .inner-list{
+            flex-direction: column
+        }
+        .inner-list ul{
+            display: flex;
+            padding: 10px
+        }
+    }
+
+
     button{
         padding: 5px 5px;
         width: 35px;
@@ -133,13 +149,16 @@ export default {
 
     .inner-list{
         padding: 10px;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 0.3fr 0.3fr 0.3fr;
+        /* display: grid; */
+        /* grid-template-columns: 1fr 1fr 1fr 1fr 0.3fr 0.3fr 0.3fr; */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
         border-bottom: 1px solid gray;
         align-items: center;
     }
-    .favorite{
-        background-color: rgb(255, 255, 221);
+    .solid-star{
+        color: rgba(0, 0, 0, 0.552);
     }
 
     .not-favorite{
@@ -164,17 +183,17 @@ export default {
         margin: -5px;
     }
 
-    .check-button{
+    /* .check-button{
         color: green;
     }
 
     .cancel-button{
         color: red;
-    }
+    } */
 
     .dates{
         font-size: 14px;
-        padding: 15px 0px;
+        /* padding: 15px 0px; */
         /* text-align: left; */
     }
 

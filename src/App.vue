@@ -5,25 +5,11 @@
       <router-link to="/history">History</router-link> |
       <router-link to="/trainer">Trainer</router-link>
     </div>
-    <router-view/>
+    <div class="container">
+    </div>
+      <router-view/>
   </div>
 </template>
-
-<script>
-export default{
-  methods:{
-    getTimes(){
-      axios.get('http://localhost:3000/rubiks').then(res => {
-        console.log("Getting times...")
-        console.log(res.data)
-        this.savedTimes = res.data
-      }).catch(e => {
-        console.log(e)
-      })
-    }
-  }
-}
-</script>
 
 <style>
 html{
@@ -32,6 +18,8 @@ html{
   padding: 0px;
   text-align: center;
   font-size: 1.2em;
+  background-image: url("./assets/lego.jpg");
+  background-size: cover; 
 }
 
 ul{
@@ -54,12 +42,22 @@ select{
 }
 
 #nav {
-  padding: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media(max-width: 1000px){
+  #nav {
+  justify-content: center;
+}
 }
 
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  background-color: rgba(238, 238, 238, 0.929);
+  padding: 10px;
+  border-radius: 10px;
 }
 
 #nav a.router-link-exact-active {
