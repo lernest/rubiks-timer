@@ -115,6 +115,13 @@ export default {
 
             return pagesArr
         },
+        chartData(){
+            this.records.map(x=>{
+                                    x.duration = this.getSeconds(x.duration)
+                                    x.timestamp = Date.parse(x.time)
+                                    return x
+                                })
+        }
     },
     methods:{
         setPage(page){
@@ -139,9 +146,14 @@ export default {
             }
 
         },
+        getSeconds(observer){
+            return (observer.hours?observer.hours*60*60:0) + (observer.minutes?observer.minutes*60:0) + (observer.seconds?observer.seconds:0) + observer.milliseconds/1000
+        },
         getTimes(){
             axios.get('http://localhost:3000/rubiks').then(res => {
                 this.records = res.data
+                // console.log(this.records[0].duration)
+                // console.log(this.getSeconds(this.records[0].duration))
             }).catch(e => {
                 console.log(e)
             })

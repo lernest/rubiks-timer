@@ -50,7 +50,7 @@ export default {
     },
     computed:{
         recordDate(){
-            console.log(new Date(Date.parse(this.record.time)))
+            // console.log(new Date(Date.parse(this.record.time)))
             return new Date(Date.parse(this.record.time))
         },
         formattedTime(){
