@@ -124,6 +124,18 @@ export default {
         text-align: center;
         background-color: var(--secondary-color);
     }
+
+    /* Buttons */
+    .timer-buttons{
+        margin: 30px 15px;
+    }
+    .timer-buttons button{
+        width: 170px;
+        height: 50px;
+        border-radius: 10px;
+        font-size: 20px;
+        font-family: var(--button-font)
+    }
     .start{
         background-color: rgba(78, 225, 78, 0.615);
     }
@@ -142,14 +154,5 @@ export default {
     select{
         margin-left: 5px;
     }
-    .timer-buttons{
-        margin: 30px 15px;
-    }
-    .timer-buttons button{
-        width: 170px;
-        height: 50px;
-        border-radius: 10px;
-        font-size: 20px;
-        font-family: var(--button-font)
-    }
+
 </style>

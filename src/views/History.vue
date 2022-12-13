@@ -115,13 +115,13 @@ export default {
 
             return pagesArr
         },
-        chartData(){
-            this.records.map(x=>{
-                                    x.duration = this.getSeconds(x.duration)
-                                    x.timestamp = Date.parse(x.time)
-                                    return x
-                                })
-        }
+        // chartData(){
+        //     this.records.map(x=>{
+        //                             x.duration = this.getSeconds(x.duration)
+        //                             x.timestamp = Date.parse(x.time)
+        //                             return x
+        //                         })
+        // }
     },
     methods:{
         setPage(page){
@@ -146,9 +146,9 @@ export default {
             }
 
         },
-        getSeconds(observer){
-            return (observer.hours?observer.hours*60*60:0) + (observer.minutes?observer.minutes*60:0) + (observer.seconds?observer.seconds:0) + observer.milliseconds/1000
-        },
+        // getSeconds(observer){
+        //     return (observer.hours?observer.hours*60*60:0) + (observer.minutes?observer.minutes*60:0) + (observer.seconds?observer.seconds:0) + observer.milliseconds/1000
+        // },
         getTimes(){
             axios.get('http://localhost:3000/rubiks').then(res => {
                 this.records = res.data
@@ -198,12 +198,6 @@ export default {
 </script>
 
 <style>
-    /* @media(min-width: 2000px){
-        .history{
-            max-width: 1000px;
-        }
-    } */
-
     @media(max-width: 1000px){
         .filter-and-sort{
             display: flex;
@@ -212,15 +206,18 @@ export default {
     }
 
     .history{
-        /* border: 1px solid black; */
         width: 50%;
         max-width: 800px;
         min-width: 300px;
         margin: auto;
-        /* margin-top: 40px; */
         background-color: var(--primary-color);
         border-radius: 15px;
         padding: 0px 10px 5px 5px;
+    }
+
+    .history-header{
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
     }
 
     .history h1{
@@ -228,14 +225,11 @@ export default {
         padding-top: 30px;
     }
 
-    .history-header{
-        border-bottom: 1px solid black;
-        padding-bottom: 10px;
-    }
     .select{
         margin: 2px 10px;
         display: inline;
     }
+
     .pages{
         display: flex;
         justify-content: flex-end;
@@ -248,6 +242,7 @@ export default {
         font-size: 13px;
         margin: 5px
     }
+
     .pageSizeSelect select{
         padding: 0px;
         font-size: 13px;
@@ -258,7 +253,6 @@ export default {
         width: 20px;
         height: 30px;
         margin: 3px;
-        /* background-color: rgba(0, 0, 0, 0); */
         border: 1px solid rgba(0, 0, 0, 0.452);
     }
 
