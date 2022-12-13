@@ -5,14 +5,17 @@
                 <li class="dates"> {{recordDate.toDateString()+" "+formattedTime}}</li>
                 <li> {{record.phase}} </li>
                 <li> {{formatDuration(record.duration)}} </li>
-                <li v-if="!isEditing" class="notes"> {{record.notes}} </li>
-                <li v-else>
-                    <input v-model="noteInput" class="note-input" label="note-input" type="text"/>
-                    <div class="note-edit-buttons" v-if="isEditing">
-                                <button class="check-button" @click="updateNote"><font-awesome-icon icon="fa-regular fa-check-circle" /></button>
-                                <button class="cancel-button" @click="cancelUpdate"><font-awesome-icon icon="fa-regular fa-circle-xmark" /></button>
-                    </div>   
+                <li class="note-li">
+                    <div v-if="!isEditing" class="notes"> <span class="empty-note" v-if="record.notes==''">no notes</span><span v-else>{{record.notes}}</span></div>
+                    <div v-else>
+                        <input v-model="noteInput" label="note-input" type="text"/>
+                        <div class="note-edit-buttons">
+                                    <button class="check-button" @click="updateNote"><font-awesome-icon icon="fa-regular fa-check-circle" /></button>
+                                    <button class="cancel-button" @click="cancelUpdate"><font-awesome-icon icon="fa-regular fa-circle-xmark" /></button>
+                        </div>   
+                    </div>
                 </li>
+                
                 <li> 
                     <ul>
                         <li>
@@ -176,10 +179,7 @@ export default {
     .not-favorite{
         color: black;
     }
-    .note-input{
-        width: 90%;
-        height: 100%
-    }
+
     .icon{
         font-size: 20px;
     }
@@ -211,6 +211,13 @@ export default {
         /* text-align: left; */
     }
 
+    .note-li{
+        flex-basis: 22%
+    }
+
+    .empty-note{
+        color: rgba(0, 0, 0, 0.29)
+    }
 
 
 </style>
