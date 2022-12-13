@@ -136,19 +136,19 @@ export default {
                 return Date.parse(a.time)-Date.parse(b.time)
             }
             else if(this.sortBy == 'fastest'){
-                return (a.duration.seconds+(a.duration.milliseconds / 1000)) - (b.duration.seconds+(b.duration.milliseconds / 1000))
+                return (this.getSeconds(a.duration)) - (this.getSeconds(b.duration))
             }
             else if(this.sortBy == 'slowest'){
-                return (b.duration.seconds+(b.duration.milliseconds / 1000)) - (a.duration.seconds+(a.duration.milliseconds / 1000))
+                return (this.getSeconds(b.duration)) - (this.getSeconds(a.duration))
             }
             else{
                 return 
             }
 
         },
-        // getSeconds(observer){
-        //     return (observer.hours?observer.hours*60*60:0) + (observer.minutes?observer.minutes*60:0) + (observer.seconds?observer.seconds:0) + observer.milliseconds/1000
-        // },
+        getSeconds(observer){
+            return (observer.hours?observer.hours*60*60:0) + (observer.minutes?observer.minutes*60:0) + (observer.seconds?observer.seconds:0) + observer.milliseconds/1000
+        },
         getTimes(){
             axios.get('http://localhost:3000/rubiks').then(res => {
                 this.records = res.data
